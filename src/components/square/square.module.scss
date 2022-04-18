@@ -1,7 +1,8 @@
+$tictactoe-square-color: #fff;
 .square {
   width: 100px;
   height: 100px;
-  border: 1px solid #fff;
+  border: 2px solid $tictactoe-square-color;
   padding: 0;
   margin: 0;
 }
