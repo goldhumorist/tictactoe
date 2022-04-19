@@ -1,18 +1,34 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.scss";
+
 import TicTacToeBoard from "./components/ticTacToeBoard/ticTacToeBoard";
 
 function App() {
   const [amountOfSquaresInRow, setAmountOfSquaresInRow] = useState(3);
   useEffect(() => {
-    setAmountOfSquaresInRow(
-      Number(prompt("Please enter amount of cells in row:"))
-    );
+    const usersAmount = Number(prompt("Please enter amount of cells in row:"));
+    const tempAmountOfSquaresInRow = Number.isInteger(usersAmount)
+      ? usersAmount
+      : 3;
+    setAmountOfSquaresInRow(tempAmountOfSquaresInRow);
   }, []);
+
+  const [component, setComponent] = useState(null);
+  const renderField = () => {
+    setComponent(
+      <TicTacToeBoard amountOfSquares={Math.pow(amountOfSquaresInRow, 2)} />
+    );
+  };
 
   return (
     <div className="App">
-      <TicTacToeBoard amountOfSquares={Math.pow(amountOfSquaresInRow, 2)} />
+      {!component ? (
+        <button className="startGameBtn" onClick={() => renderField()}>
+          PLAY
+        </button>
+      ) : (
+        component
+      )}
     </div>
   );
 }
