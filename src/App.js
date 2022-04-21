@@ -4,20 +4,22 @@ import "./App.scss";
 import TicTacToeBoard from "./components/ticTacToeBoard/ticTacToeBoard";
 
 function App() {
-  const [amountOfSquaresInRow, setAmountOfSquaresInRow] = useState(3);
-  useEffect(() => {
-    const usersAmount = Number(prompt("Please enter amount of cells in row:"));
-    const tempAmountOfSquaresInRow = Number.isInteger(usersAmount)
-      ? usersAmount
-      : 3;
-    setAmountOfSquaresInRow(tempAmountOfSquaresInRow);
-  }, []);
+  // !!! For now this part is not needed !!!
+
+  // const [amountOfSquaresInRow, setAmountOfSquaresInRow] = useState(3);
+  // useEffect(() => {
+  //   const usersAmount = Number(prompt("Please enter amount of cells in row:"));
+  //   const tempAmountOfSquaresInRow = Number.isInteger(usersAmount)
+  //     ? usersAmount
+  //     : 3;
+  //   setAmountOfSquaresInRow(tempAmountOfSquaresInRow);
+  // }, []);
+
+  // !!! For now this part is not needed !!!
 
   const [component, setComponent] = useState(null);
   const renderField = () => {
-    setComponent(
-      <TicTacToeBoard amountOfSquares={Math.pow(amountOfSquaresInRow, 2)} />
-    );
+    setComponent(<TicTacToeBoard amountOfSquares={Math.pow(3, 2)} />);
   };
 
   return (
