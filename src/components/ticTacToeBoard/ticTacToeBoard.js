@@ -28,10 +28,11 @@ const TicTacToeBoard = ({ amountOfSquares }) => {
   const handleTurn = (squareIndex) => {
     if (
       typeof originBoard[squareIndex] === "number" &&
-      !checkWin(originBoard, realPlayer)
+      !checkWin(originBoard, realPlayer) &&
+      !checkWin(originBoard, aiPlayer)
     ) {
       doTurn(squareIndex, realPlayer);
-      if (!checkTie() && !checkWin(originBoard, realPlayer)) {
+      if (!checkTie()) {
         doTurn(bestSpot(), aiPlayer);
       }
     }
@@ -61,23 +62,73 @@ const TicTacToeBoard = ({ amountOfSquares }) => {
     return gameWon;
   };
 
-  const bestSpot = () => {
-    return emptySquares()[0];
-  };
-
-  const emptySquares = () => {
-    return originBoard.filter((square) => typeof square === "number");
+  const emptySquares = (board) => {
+    return board.filter((square) => typeof square === "number");
   };
 
   const checkTie = () => {
-    if (emptySquares().length === 0) {
-      declareWinner("TIE");
+    if (emptySquares(originBoard).length === 0) {
       return true;
     }
     return false;
   };
   const declareWinner = (player) => {
     return `Wons - ${player}`;
+  };
+
+  const bestSpot = () => {
+    return minMax(originBoard, aiPlayer).index;
+  };
+  const minMax = (newBoard, player) => {
+    const avalibleSquares = emptySquares(newBoard);
+
+    if (checkWin(newBoard, player)) {
+      return { score: -10 };
+    } else if (checkWin(newBoard, aiPlayer)) {
+      return { score: 10 };
+    } else if (avalibleSquares.length === 0) {
+      return { score: 0 };
+    }
+
+    const moves = [];
+
+    for (let i = 0; i < avalibleSquares.length; i++) {
+      const move = {};
+      move.index = newBoard[avalibleSquares[i]];
+      newBoard[avalibleSquares[i]] = player;
+
+      if (player === aiPlayer) {
+        const result = minMax(newBoard, realPlayer);
+        move.score = result.score;
+      } else {
+        const result = minMax(newBoard, aiPlayer);
+        move.score = result.score;
+      }
+      newBoard[avalibleSquares[i]] = move.index;
+      moves.push(move);
+    }
+
+    let bestMove;
+    if (player === aiPlayer) {
+      let bestScore = -Infinity;
+
+      for (let i = 0; i < moves.length; i++) {
+        if (moves[i].score > bestScore) {
+          bestScore = moves[i].score;
+          bestMove = i;
+        }
+      }
+    } else {
+      let bestScore = Infinity;
+
+      for (let i = 0; i < moves.length; i++) {
+        if (moves[i].score < bestScore) {
+          bestScore = moves[i].score;
+          bestMove = i;
+        }
+      }
+    }
+    return moves[bestMove];
   };
 
   return (
@@ -95,7 +146,9 @@ const TicTacToeBoard = ({ amountOfSquares }) => {
       {checkWin(originBoard, "x")
         ? declareWinner("x")
         : checkWin(originBoard, "o")
-        ? declareWinner("x")
+        ? declareWinner("o")
+        : checkTie()
+        ? "TIE"
         : "Playing..."}
     </div>
   );
