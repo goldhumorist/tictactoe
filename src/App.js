@@ -19,15 +19,20 @@ function App() {
 
   const [component, setComponent] = useState(null);
   const renderField = () => {
-    setComponent(<TicTacToeBoard amountOfSquares={Math.pow(4, 2)} />);
+    setComponent(<TicTacToeBoard amountOfSquares={Math.pow(3, 2)} />);
   };
 
   return (
     <div className="App">
       {!component ? (
-        <button className="startGameBtn" onClick={() => renderField()}>
-          PLAY
-        </button>
+        <section className="main-section">
+          <div className="container">
+            <h1 className="main-title">TicTacToe</h1>
+            <button className="startGameBtn" onClick={() => renderField()}>
+            PLAY
+            </button>
+          </div>
+          </section>
       ) : (
         component
       )}

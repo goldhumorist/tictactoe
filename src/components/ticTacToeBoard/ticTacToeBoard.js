@@ -76,11 +76,13 @@ const TicTacToeBoard = ({ amountOfSquares }) => {
     }
     return result;
   };
+ 
 
   let winCombination = null;
   winCombination = winCombination
     ? winCombination
     : getWinCombination(originBoard);
+  console.log(winCombination);
 
   const handleTurn = (squareIndex) => {
     if (
@@ -134,7 +136,8 @@ const TicTacToeBoard = ({ amountOfSquares }) => {
   };
 
   const bestSpot = () => {
-    return minMax(originBoard, aiPlayer).index;
+    // return minMax(originBoard, aiPlayer).index;
+    return emptySquares(originBoard)[0];
   };
   const minMax = (newBoard, player) => {
     const avalibleSquares = emptySquares(newBoard);
@@ -205,7 +208,7 @@ const TicTacToeBoard = ({ amountOfSquares }) => {
         : checkWin(originBoard, "o")
         ? declareWinner("o")
         : checkTie()
-        ? "TIE"
+        ? "Draw"
         : "Playing..."}
     </div>
   );
