@@ -14,7 +14,7 @@ const TicTacToeBoard = ({ amountOfSquares }) => {
   const realPlayer = "x";
   const aiPlayer = "o";
 
-  const winCombination = [
+  const winCombinationTest = [
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
@@ -24,6 +24,63 @@ const TicTacToeBoard = ({ amountOfSquares }) => {
     [0, 4, 8],
     [6, 4, 2],
   ];
+
+  const getWinCombination = (board) => {
+    const winAmount = Math.sqrt(amountOfSquares);
+    const result = [];
+    let tempHorizontal = [];
+    let tempVertical = [];
+    let tempCross = [];
+
+    for (let i = 0; i <= board.length; i++) {
+      if (i === 0 || i % winAmount !== 0) {
+        tempHorizontal.push(i);
+      } else {
+        result.push(tempHorizontal);
+        tempHorizontal = [];
+        tempHorizontal.push(i);
+      }
+    }
+
+    for (let i = 0; i < winAmount; i++) {
+      tempVertical.push(i);
+      for (let j = i; j < amountOfSquares - winAmount; j += winAmount) {
+        tempVertical.push(j + winAmount);
+      }
+
+      result.push(tempVertical);
+      tempVertical = [];
+    }
+
+    for (let i = 0; i < winAmount; i += winAmount - 1) {
+      tempCross.push(i);
+      if (i === 0) {
+        for (let j = i; j <= amountOfSquares - winAmount; j += winAmount + 1) {
+          tempCross.push(j + (winAmount + 1));
+        }
+
+        result.push(tempCross);
+        tempCross = [];
+      } else {
+        for (
+          let j = i;
+          j <= amountOfSquares - winAmount - 1;
+          j += winAmount - 1
+        ) {
+          tempCross.push(j + (winAmount - 1));
+        }
+        result.push(tempCross);
+
+        tempCross = [];
+      }
+    }
+    return result;
+  };
+
+  let winCombination = null;
+  winCombination = winCombination
+    ? winCombination
+    : getWinCombination(originBoard);
 
   const handleTurn = (squareIndex) => {
     if (
@@ -83,9 +140,9 @@ const TicTacToeBoard = ({ amountOfSquares }) => {
     const avalibleSquares = emptySquares(newBoard);
 
     if (checkWin(newBoard, player)) {
-      return { score: -10 };
+      return { score: -1 };
     } else if (checkWin(newBoard, aiPlayer)) {
-      return { score: 10 };
+      return { score: 1 };
     } else if (avalibleSquares.length === 0) {
       return { score: 0 };
     }
@@ -110,7 +167,7 @@ const TicTacToeBoard = ({ amountOfSquares }) => {
 
     let bestMove;
     if (player === aiPlayer) {
-      let bestScore = -Infinity;
+      let bestScore = -10;
 
       for (let i = 0; i < moves.length; i++) {
         if (moves[i].score > bestScore) {
@@ -119,7 +176,7 @@ const TicTacToeBoard = ({ amountOfSquares }) => {
         }
       }
     } else {
-      let bestScore = Infinity;
+      let bestScore = 10;
 
       for (let i = 0; i < moves.length; i++) {
         if (moves[i].score < bestScore) {

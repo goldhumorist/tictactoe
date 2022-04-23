@@ -19,7 +19,7 @@ function App() {
 
   const [component, setComponent] = useState(null);
   const renderField = () => {
-    setComponent(<TicTacToeBoard amountOfSquares={Math.pow(3, 2)} />);
+    setComponent(<TicTacToeBoard amountOfSquares={Math.pow(4, 2)} />);
   };
 
   return (
