@@ -1,8 +1,9 @@
-$tictactoe-square-color: #fff;
+$tictactoe-square-color: #000000;
 .square {
   width: 100px;
   height: 100px;
   border: 2px solid $tictactoe-square-color;
+  color: $tictactoe-square-color;
   display: flex;
   justify-content: center;
   align-items: center;

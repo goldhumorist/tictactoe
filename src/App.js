@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.scss";
-
-import TicTacToeBoard from "./components/ticTacToeBoard/ticTacToeBoard";
+import TicTacToe from "./components/ticTacToe/ticTacToe";
 
 function App() {
   // !!! For now this part is not needed !!!
@@ -19,7 +18,7 @@ function App() {
 
   const [component, setComponent] = useState(null);
   const renderField = () => {
-    setComponent(<TicTacToeBoard amountOfSquares={Math.pow(3, 2)} />);
+    setComponent(<TicTacToe amountOfSquares={Math.pow(3, 2)} />);
   };
 
   return (
@@ -29,10 +28,10 @@ function App() {
           <div className="container">
             <h1 className="main-title">TicTacToe</h1>
             <button className="startGameBtn" onClick={() => renderField()}>
-            PLAY
+              PLAY
             </button>
           </div>
-          </section>
+        </section>
       ) : (
         component
       )}
