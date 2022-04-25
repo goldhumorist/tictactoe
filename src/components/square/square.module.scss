@@ -1,4 +1,4 @@
-$tictactoe-square-color: #000000;
+$tictactoe-square-color: #ffffff;
 .square {
   width: 100px;
   height: 100px;
@@ -9,4 +9,5 @@ $tictactoe-square-color: #000000;
   align-items: center;
   font-size: 45px;
   font-family: Arial;
+  background-color: rgb(34, 71, 108);
 }
