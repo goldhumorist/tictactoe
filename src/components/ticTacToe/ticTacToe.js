@@ -105,13 +105,15 @@ const TicTacToe = ({ amountOfSquares }) => {
           />
         ))}
       </div>
+      <div className = {styles.gameStatus}>
       {checkWin(originBoard, "x")
         ? declareWinner("x")
         : checkWin(originBoard, "o")
         ? declareWinner("o")
         : isTie(originBoard)
         ? "Draw"
-        : "Playing..."}
+              : "Playing..."}
+        </div>
     </div>
   );
 };

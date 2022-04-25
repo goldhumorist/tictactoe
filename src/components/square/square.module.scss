@@ -2,12 +2,13 @@ $tictactoe-square-color: #ffffff;
 .square {
   width: 100px;
   height: 100px;
-  border: 2px solid $tictactoe-square-color;
-  color: $tictactoe-square-color;
+  border: 1px solid;
+  border-radius: 10пгpx;
+  color: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 45px;
   font-family: Arial;
-  background-color: rgb(34, 71, 108);
+  background-color: rgb(34, 193, 195, 0.8);
 }

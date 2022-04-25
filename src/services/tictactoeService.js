@@ -21,6 +21,7 @@ export const checkWin = (board, player) => {
   );
 
   let gameWon = null;
+  
   for (let [index, win] of winCombination.entries()) {
     if (win.every((element) => plays.indexOf(element) > -1)) {
       gameWon = { index, player };
