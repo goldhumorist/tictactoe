@@ -20,11 +20,69 @@ const TicTacToe = ({ amountOfSquares }) => {
   const realPlayer = "x";
   const aiPlayer = "o";
 
+  const getWinCombination = (board) => {
+    const winAmount = Math.sqrt(amountOfSquares);
+    const result = [];
+    let tempHorizontal = [];
+    let tempVertical = [];
+    let tempCross = [];
+
+    for (let i = 0; i <= board.length; i++) {
+      if (i === 0 || i % winAmount !== 0) {
+        tempHorizontal.push(i);
+      } else {
+        result.push(tempHorizontal);
+        tempHorizontal = [];
+        tempHorizontal.push(i);
+      }
+    }
+
+    for (let i = 0; i < winAmount; i++) {
+      tempVertical.push(i);
+      for (let j = i; j < amountOfSquares - winAmount; j += winAmount) {
+        tempVertical.push(j + winAmount);
+      }
+
+      result.push(tempVertical);
+      tempVertical = [];
+    }
+
+    for (let i = 0; i < winAmount; i += winAmount - 1) {
+      tempCross.push(i);
+      if (i === 0) {
+        for (let j = i; j <= amountOfSquares - winAmount; j += winAmount + 1) {
+          tempCross.push(j + (winAmount + 1));
+        }
+
+        result.push(tempCross);
+        tempCross = [];
+      } else {
+        for (
+          let j = i;
+          j <= amountOfSquares - winAmount - 1;
+          j += winAmount - 1
+        ) {
+          tempCross.push(j + (winAmount - 1));
+        }
+        result.push(tempCross);
+
+        tempCross = [];
+      }
+    }
+    return result;
+  };
+
+  let winCombination = null;
+  winCombination = winCombination
+    ? winCombination
+    : getWinCombination(originBoard);
+  console.log(winCombination);
+
   const handleTurn = (squareIndex) => {
     if (
       typeof originBoard[squareIndex] === "number" &&
-      !checkWin(originBoard, realPlayer) &&
-      !checkWin(originBoard, aiPlayer)
+      !checkWin(originBoard, realPlayer, winCombination) &&
+      !checkWin(originBoard, aiPlayer, winCombination)
     ) {
       originBoard[squareIndex] = realPlayer;
       setSquares([...originBoard]);
@@ -57,9 +115,9 @@ const TicTacToe = ({ amountOfSquares }) => {
   const minimax = (board, depth, isMaximizing) => {
     const avalibleSquares = emptySquares(originBoard);
 
-    if (checkWin(board, realPlayer)) {
+    if (checkWin(board, realPlayer, winCombination)) {
       return -1;
-    } else if (checkWin(board, aiPlayer)) {
+    } else if (checkWin(board, aiPlayer, winCombination)) {
       return 1;
     } else if (avalibleSquares.length === 0) {
       return 0;
@@ -105,15 +163,15 @@ const TicTacToe = ({ amountOfSquares }) => {
           />
         ))}
       </div>
-      <div className = {styles.gameStatus}>
-      {checkWin(originBoard, "x")
-        ? declareWinner("x")
-        : checkWin(originBoard, "o")
-        ? declareWinner("o")
-        : isTie(originBoard)
-        ? "Draw"
-              : "Playing..."}
-        </div>
+      <div className={styles.gameStatus}>
+        {checkWin(originBoard, "x", winCombination)
+          ? declareWinner("x")
+          : checkWin(originBoard, "o", winCombination)
+          ? declareWinner("o")
+          : isTie(originBoard)
+          ? "Draw"
+          : "Playing..."}
+      </div>
     </div>
   );
 };
