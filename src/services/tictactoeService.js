@@ -1,3 +1,4 @@
+
 export const emptySquares = (board) => {
   return board.filter((square) => typeof square === "number");
 };
