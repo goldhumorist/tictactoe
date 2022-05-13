@@ -7,6 +7,7 @@ import {
   isTie,
 } from "../../services/tictactoeService";
 import styles from "./ticTacToeBoard.module.scss";
+import App from "../../App";
 
 const TicTacToe = ({ amountOfSquares }) => {
   const defaultSquares = (() => {
@@ -15,6 +16,12 @@ const TicTacToe = ({ amountOfSquares }) => {
   const width = Math.sqrt(amountOfSquares) * 100;
 
   const [squares, setSquares] = useState(defaultSquares);
+  const [isRender, setisRender] = useState(false);
+
+  const restartHandler = () => {
+    console.log("Restart");
+    setisRender(true);
+  };
 
   let originBoard = squares;
   const realPlayer = "x";
@@ -76,7 +83,6 @@ const TicTacToe = ({ amountOfSquares }) => {
   winCombination = winCombination
     ? winCombination
     : getWinCombination(originBoard);
-  console.log(winCombination);
 
   const handleTurn = (squareIndex) => {
     if (
@@ -152,27 +158,36 @@ const TicTacToe = ({ amountOfSquares }) => {
   };
 
   return (
-    <div className={styles.container}>
-      <div style={{ width: width }} className={styles.board}>
-        {squares.map((currentSquare, index) => (
-          <Square
-            key={index}
-            x={currentSquare === "x" ? 1 : 0}
-            o={currentSquare === "o" ? 1 : 0}
-            onClick={() => handleTurn(index)}
-          />
-        ))}
-      </div>
-      <div className={styles.gameStatus}>
-        {checkWin(originBoard, "x", winCombination)
-          ? declareWinner("x")
-          : checkWin(originBoard, "o", winCombination)
-          ? declareWinner("o")
-          : isTie(originBoard)
-          ? "Draw"
-          : "Playing..."}
-      </div>
-    </div>
+    <>
+      {isRender ? (
+        <App />
+      ) : (
+        <div className={styles.container}>
+          <div style={{ width: width }} className={styles.board}>
+            {squares.map((currentSquare, index) => (
+              <Square
+                key={index}
+                x={currentSquare === "x" ? 1 : 0}
+                o={currentSquare === "o" ? 1 : 0}
+                onClick={() => handleTurn(index)}
+              />
+            ))}
+          </div>
+          <div className={styles.gameStatus}>
+            {checkWin(originBoard, "x", winCombination)
+              ? declareWinner("x")
+              : checkWin(originBoard, "o", winCombination)
+              ? declareWinner("o")
+              : isTie(originBoard)
+              ? "Draw"
+              : "Playing..."}
+          </div>
+          <div onClick={() => restartHandler()} className={styles.restartBtn}>
+            Restart
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
