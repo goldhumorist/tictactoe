@@ -3,22 +3,24 @@ import "./App.scss";
 import TicTacToe from "./components/ticTacToe/ticTacToe";
 
 function App() {
-  // !!! For now this part is not needed !!!
-
-  // const [amountOfSquaresInRow, setAmountOfSquaresInRow] = useState(3);
-  // useEffect(() => {
-  //   const usersAmount = Number(prompt("Please enter amount of cells in row:"));
-  //   const tempAmountOfSquaresInRow = Number.isInteger(usersAmount)
-  //     ? usersAmount
-  //     : 3;
-  //   setAmountOfSquaresInRow(tempAmountOfSquaresInRow);
-  // }, []);
-
-  // !!! For now this part is not needed !!!
+  const [amountOfSquaresInRow, setAmountOfSquaresInRow] = useState(3);
+  useEffect(() => {
+    const usersAmount = Number(
+      prompt(
+        "Please enter amount of cells in row: \nPlease do not enter more than 3"
+      )
+    );
+    const tempAmountOfSquaresInRow = Number.isInteger(usersAmount)
+      ? usersAmount
+      : 3;
+    setAmountOfSquaresInRow(tempAmountOfSquaresInRow);
+  }, []);
 
   const [component, setComponent] = useState(null);
   const renderField = () => {
-    setComponent(<TicTacToe amountOfSquares={Math.pow(3, 2)} />);
+    setComponent(
+      <TicTacToe amountOfSquares={Math.pow(amountOfSquaresInRow, 2)} />
+    );
   };
 
   return (
